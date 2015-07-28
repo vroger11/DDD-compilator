@@ -76,7 +76,7 @@ public class DDDFactory {
 		NonTerminal newVertex = new NonTerminal(pos, neg, op, constant, low,
 				high, currentCode);
 		// rule 4: (var(v) = var(low(v))) implies (high(v) != high(low(v))
-		if (high instanceof NonTerminal && low instanceof NonTerminal) {
+		if (low instanceof NonTerminal) {
 
 			if (newVertex.hasTheSameVariables((NonTerminal) low)) {
 				if (high.equals(((NonTerminal) low).getHigh())) {
@@ -170,34 +170,40 @@ public class DDDFactory {
 	 * @return
 	 */
 	public DDDVertex tight(DDDVertex v) {
-		ArrayList<Path> positivePaths = new ArrayList<Path>();
-		recursiveSearchOfPositivePaths(positivePaths, v, new Path());
+		ArrayList<Path> paths = new ArrayList<Path>();
+		recursiveSearchOfPaths(paths, v, new Path());
 
-		if (positivePaths.size() == 0)
-			// it is equals to 0 when v is a terminal vertice
+		if (paths.size() == 0)
+			// it is equals to 0 when v is a terminal vertex
 			return v;
 
-		DDDVertex tightDDD = positivePaths.get(0).toTightPositiveDDD(this);
-		for (int i = 1; i < positivePaths.size(); i++) {
-			DDDVertex nextTight = positivePaths.get(i).toTightPositiveDDD(this);
-			tightDDD = APPLY(LogicalOperator.OR, tightDDD, nextTight);
+		DDDVertex tightDDD = paths.get(0).toTightDDD(this);
+		for (int i = 1; i < paths.size(); i++) {
+			DDDVertex nextTight = paths.get(i).toTightDDD(this);
+			tightDDD = APPLY(LogicalOperator.AND, tightDDD, nextTight);
 		}
 
 		return tightDDD;
 	}
 
 	/**
-	 * enumerate every path that goes on the terminal vertex One
+	 * enumerate every path
 	 * 
-	 * @param positivePaths
+	 * @param paths
 	 * @param v
 	 * @param current
 	 */
-	private void recursiveSearchOfPositivePaths(ArrayList<Path> positivePaths,
+	private void recursiveSearchOfPaths(ArrayList<Path> paths,
 			DDDVertex v, Path current) {
 		if (v.equals(getOne()))
-			positivePaths.add(current);
+			paths.add(current);
 
+		if (v.equals(getZero())) {
+			current.lastToBot();
+			paths.add(current);
+		}
+			
+			
 		if (v instanceof NonTerminal) {
 			NonTerminal ntv = (NonTerminal) v;
 			Path currentLow = null;
@@ -212,9 +218,9 @@ public class DDDFactory {
 
 			current.addNode(ntv, true);
 			currentLow.addNode(ntv, false);
-			recursiveSearchOfPositivePaths(positivePaths, ntv.getHigh(),
+			recursiveSearchOfPaths(paths, ntv.getHigh(),
 					current);
-			recursiveSearchOfPositivePaths(positivePaths, ntv.getLow(),
+			recursiveSearchOfPaths(paths, ntv.getLow(),
 					currentLow);
 		}
 

@@ -105,7 +105,7 @@ public class Path implements Cloneable {
 		return true;
 	}
 
-	public DDDVertex toTightPositiveDDD(DDDFactory factory) {
+	public DDDVertex toTightDDD(DDDFactory factory) {
 		if (!this.feasible()) {
 			System.err.println("Should never append!!");
 			System.exit(1);
@@ -127,5 +127,9 @@ public class Path implements Cloneable {
 
 		return result;
 
+	}
+	
+	public void lastToBot() {
+		A.get(A.size()-1).setToBot();
 	}
 }

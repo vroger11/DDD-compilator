@@ -12,8 +12,10 @@ public class Edge {
 	private float constant;
 
 	private boolean inverted; // positive and negative variables were inverted
+	private boolean toBot;
 
 	public Edge(NonTerminal ntv, boolean high) {
+		this.toBot = false;
 		if (inverted = !high) {
 			pos = ntv.getNeg();
 			neg = ntv.getPos();
@@ -75,18 +77,36 @@ public class Edge {
 		return inverted;
 	}
 
+	public void setToBot() {
+		toBot = true;
+	}
+	
 	DDDVertex toDDDVertex(DDDFactory factory, float constant) {
 		DDDVertex result;
-
-		if (inverted) {
-			//TODO check if it is correct
-			result = factory.MK(neg, pos,
-					(op == ComparativeOperator.LT) ? ComparativeOperator.LEQ
-							: ComparativeOperator.LT, -constant, factory
-							.getOne(), factory.getZero());
+		if (!toBot) {
+			if (inverted) {
+				result = factory
+						.MK(neg,
+								pos,
+								(op == ComparativeOperator.LT) ? ComparativeOperator.LEQ
+										: ComparativeOperator.LT, -constant,
+								factory.getOne(), factory.getZero());
+			} else {
+				result = factory.MK(pos, neg, op, constant, factory.getZero(),
+						factory.getOne());
+			}
 		} else {
-			result = factory.MK(pos, neg, op, constant, factory.getZero(),
-					factory.getOne());
+			if (inverted) {
+				result = factory
+						.MK(neg,
+								pos,
+								(op == ComparativeOperator.LT) ? ComparativeOperator.LEQ
+										: ComparativeOperator.LT, -constant,
+								factory.getZero(), factory.getOne());
+			} else {
+				result = factory.MK(pos, neg, op, constant, factory.getOne(),
+						factory.getZero());
+			}
 		}
 
 		return result;
