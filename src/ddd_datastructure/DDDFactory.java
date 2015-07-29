@@ -180,7 +180,7 @@ public class DDDFactory {
 		DDDVertex tightDDD = paths.get(0).toTightDDD(this);
 		for (int i = 1; i < paths.size(); i++) {
 			DDDVertex nextTight = paths.get(i).toTightDDD(this);
-			tightDDD = APPLY(LogicalOperator.AND, tightDDD, nextTight);
+			tightDDD = APPLY(LogicalOperator.OR, tightDDD, nextTight);
 		}
 
 		return tightDDD;
@@ -198,10 +198,10 @@ public class DDDFactory {
 		if (v.equals(getOne()))
 			paths.add(current);
 
-		if (v.equals(getZero())) {
-			current.lastToBot();
-			paths.add(current);
-		}
+//		if (v.equals(getZero())) {
+//			current.lastToBot();
+//			paths.add(current);
+//		}
 			
 			
 		if (v instanceof NonTerminal) {
