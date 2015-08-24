@@ -87,42 +87,42 @@ public class DDDFactory {
 
 		}
 
-		// control order
-		variableOrder.addVariable(neg);
-		variableOrder.addVariable(pos);
-		if (!variableOrder.localVerify(newVertex)) {
-			System.err.println("problem with the order");
-			System.err.println("DDDFactory.MK()");
-
-			// the following code is for debugging
-			System.err.println(variableOrder);
-			System.err.println("Pos " + newVertex.getPos() + " -> "
-					+ variableOrder.getOrder(newVertex.getPos()) + " Neg "
-					+ newVertex.getNeg() + " -> "
-					+ variableOrder.getOrder(newVertex.getNeg()));
-			System.err.println();
-			if (low instanceof NonTerminal) {
-				NonTerminal lowNT = (NonTerminal) newVertex.getLow();
-				System.err.println("Low: Pos " + lowNT.getPos() + " -> "
-						+ variableOrder.getOrder(lowNT.getPos()) + " Neg "
-						+ lowNT.getNeg() + " -> "
-						+ variableOrder.getOrder(lowNT.getNeg()));
-			}
-
-			if (high instanceof NonTerminal) {
-				NonTerminal highNT = (NonTerminal) newVertex.getHigh();
-				System.err.println("High: Pos " + highNT.getPos() + " -> "
-						+ variableOrder.getOrder(highNT.getPos()) + " Neg "
-						+ highNT.getNeg() + " -> "
-						+ variableOrder.getOrder(highNT.getNeg()));
-			}
-
-			// print the stack trace
-			Exception ex = new Exception();
-			ex.printStackTrace();
-
-			System.exit(1);
-		}
+		// trace: control order
+		//		variableOrder.addVariable(neg);
+		//		variableOrder.addVariable(pos);
+		//		if (!variableOrder.localVerify(newVertex)) {
+		//			System.err.println("problem with the order");
+		//			System.err.println("DDDFactory.MK()");
+		//
+		//			// the following code is for debugging
+		//			System.err.println(variableOrder);
+		//			System.err.println("Pos " + newVertex.getPos() + " -> "
+		//					+ variableOrder.getOrder(newVertex.getPos()) + " Neg "
+		//					+ newVertex.getNeg() + " -> "
+		//					+ variableOrder.getOrder(newVertex.getNeg()));
+		//			System.err.println();
+		//			if (low instanceof NonTerminal) {
+		//				NonTerminal lowNT = (NonTerminal) newVertex.getLow();
+		//				System.err.println("Low: Pos " + lowNT.getPos() + " -> "
+		//						+ variableOrder.getOrder(lowNT.getPos()) + " Neg "
+		//						+ lowNT.getNeg() + " -> "
+		//						+ variableOrder.getOrder(lowNT.getNeg()));
+		//			}
+		//
+		//			if (high instanceof NonTerminal) {
+		//				NonTerminal highNT = (NonTerminal) newVertex.getHigh();
+		//				System.err.println("High: Pos " + highNT.getPos() + " -> "
+		//						+ variableOrder.getOrder(highNT.getPos()) + " Neg "
+		//						+ highNT.getNeg() + " -> "
+		//						+ variableOrder.getOrder(highNT.getNeg()));
+		//			}
+		//
+		//			// print the stack trace
+		//			Exception ex = new Exception();
+		//			ex.printStackTrace();
+		//
+		//			System.exit(1);
+		//		}
 
 		hashVertices.put(currentCode, newVertex);
 		return newVertex;
