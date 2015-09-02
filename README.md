@@ -3,7 +3,7 @@ Compilator based on Difference Decision Diagrams (DDD)
 
 
 ## This library can:
-- parse a smt or smt2 problems, but variables needs to be Real.
+- parse a smt or smt2 problems, but variables needs to be Real (you can see an example in example_smt_files).
 - generate locally reduced DDD.
 - generate path reduced and tight DDD (implemented with exponential algorithms)
 - use 4 different heuristics were also implemented to parse an smt problem.
